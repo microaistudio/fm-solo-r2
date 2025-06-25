@@ -1,21 +1,42 @@
 const app = require('./app');
+const { initializeDatabase, closeDatabase } = require('./database/connection');
 
 const PORT = process.env.PORT || 5050;
 
-const server = app.listen(PORT, () => {
-    console.log(`FlowMatic-SOLO server running on port ${PORT}`);
-});
+async function startServer() {
+    try {
+        await initializeDatabase();
+        
+        const server = app.listen(PORT, () => {
+            console.log(`FlowMatic-SOLO server running on port ${PORT}`);
+        });
+        
+        return server;
+    } catch (error) {
+        console.error('Failed to start server:', error);
+        process.exit(1);
+    }
+}
 
-process.on('SIGTERM', () => {
+let server;
+startServer().then(s => { server = s; });
+
+process.on('SIGTERM', async () => {
     console.log('SIGTERM signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-    });
+    if (server) {
+        server.close(async () => {
+            await closeDatabase();
+            console.log('HTTP server closed');
+        });
+    }
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
     console.log('SIGINT signal received: closing HTTP server');
-    server.close(() => {
-        console.log('HTTP server closed');
-    });
+    if (server) {
+        server.close(async () => {
+            await closeDatabase();
+            console.log('HTTP server closed');
+        });
+    }
 });
