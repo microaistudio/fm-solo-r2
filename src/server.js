@@ -1,5 +1,7 @@
+const http = require('http');
 const app = require('./app');
 const { initializeDatabase, closeDatabase } = require('./database/connection');
+const { setupSocketIO } = require('./realtime/socketManager');
 
 const PORT = process.env.PORT || 5050;
 
@@ -7,8 +9,12 @@ async function startServer() {
     try {
         await initializeDatabase();
         
-        const server = app.listen(PORT, () => {
+        const server = http.createServer(app);
+        const io = setupSocketIO(server);
+        
+        server.listen(PORT, () => {
             console.log(`FlowMatic-SOLO server running on port ${PORT}`);
+            console.log('Socket.IO server ready');
         });
         
         return server;
