@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getDb } = require('./database/connection');
+const { logEvent, EventTypes } = require('./database/events');
 
 router.get('/kiosk/services', (req, res) => {
     res.json({ message: 'GET /api/kiosk/services - Not implemented' });
@@ -60,17 +61,20 @@ router.post('/kiosk/tickets', (req, res) => {
                                 
                                 const ticketId = this.lastID;
                                 
-                                db.run(
-                                    `INSERT INTO events (event_type, entity_type, entity_id, data) 
-                                     VALUES ('TICKET_CREATED', 'ticket', ?, ?)`,
-                                    [ticketId, JSON.stringify({ ticketNumber, serviceId })],
-                                    (err) => {
-                                        if (err) {
-                                            db.run('ROLLBACK');
-                                            return res.status(500).json({ error: 'Failed to log event' });
-                                        }
-                                        
-                                        db.run('COMMIT', (err) => {
+                                // Log the event
+                                logEvent(
+                                    EventTypes.TICKET_CREATED,
+                                    'ticket',
+                                    ticketId,
+                                    {
+                                        ticketNumber,
+                                        serviceId,
+                                        serviceName: service.name,
+                                        customerName: customerName || 'Anonymous'
+                                    }
+                                ).catch(err => console.error('Event logging failed:', err));
+                                
+                                db.run('COMMIT', (err) => {
                                             if (err) {
                                                 return res.status(500).json({ error: 'Failed to commit transaction' });
                                             }
@@ -177,21 +181,23 @@ router.post('/terminal/call-next', (req, res) => {
                                             return res.status(500).json({ error: 'Failed to update counter' });
                                         }
                                         
-                                        db.run(
-                                            `INSERT INTO events (event_type, entity_type, entity_id, data, agent_id, counter_id) 
-                                             VALUES ('TICKET_CALLED', 'ticket', ?, ?, ?, ?)`,
-                                            [ticket.id, JSON.stringify({ 
+                                        // Log the event
+                                        logEvent(
+                                            EventTypes.TICKET_CALLED,
+                                            'ticket',
+                                            ticket.id,
+                                            {
                                                 ticketNumber: ticket.ticket_number,
+                                                serviceId: ticket.service_id,
                                                 counterId,
-                                                agentId
-                                            }), agentId, counterId],
-                                            (err) => {
-                                                if (err) {
-                                                    db.run('ROLLBACK');
-                                                    return res.status(500).json({ error: 'Failed to log event' });
-                                                }
-                                                
-                                                db.run('COMMIT', (err) => {
+                                                agentId,
+                                                previousState: 'waiting'
+                                            },
+                                            agentId,
+                                            counterId
+                                        ).catch(err => console.error('Event logging failed:', err));
+                                        
+                                        db.run('COMMIT', (err) => {
                                                     if (err) {
                                                         return res.status(500).json({ error: 'Failed to commit transaction' });
                                                     }
@@ -294,21 +300,22 @@ router.post('/terminal/complete', (req, res) => {
                                     return res.status(500).json({ error: 'Failed to update counter' });
                                 }
                                 
-                                db.run(
-                                    `INSERT INTO events (event_type, entity_type, entity_id, data, agent_id, counter_id) 
-                                     VALUES ('TICKET_COMPLETED', 'ticket', ?, ?, ?, ?)`,
-                                    [ticketId, JSON.stringify({ 
+                                // Log the event
+                                logEvent(
+                                    EventTypes.TICKET_COMPLETED,
+                                    'ticket',
+                                    ticketId,
+                                    {
                                         ticketNumber: ticket.ticket_number,
-                                        serviceDuration,
-                                        actualWait
-                                    }), agentId, counterId],
-                                    (err) => {
-                                        if (err) {
-                                            db.run('ROLLBACK');
-                                            return res.status(500).json({ error: 'Failed to log event' });
-                                        }
-                                        
-                                        db.run('COMMIT', (err) => {
+                                        serviceId: ticket.service_id,
+                                        serviceDurationSeconds: serviceDuration,
+                                        actualWaitSeconds: actualWait
+                                    },
+                                    agentId,
+                                    counterId
+                                ).catch(err => console.error('Event logging failed:', err));
+                                
+                                db.run('COMMIT', (err) => {
                                             if (err) {
                                                 return res.status(500).json({ error: 'Failed to commit transaction' });
                                             }
