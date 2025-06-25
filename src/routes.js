@@ -75,22 +75,20 @@ router.post('/kiosk/tickets', (req, res) => {
                                 ).catch(err => console.error('Event logging failed:', err));
                                 
                                 db.run('COMMIT', (err) => {
-                                            if (err) {
-                                                return res.status(500).json({ error: 'Failed to commit transaction' });
-                                            }
-                                            
-                                            res.status(201).json({
-                                                id: ticketId,
-                                                ticketNumber,
-                                                serviceId,
-                                                serviceName: service.name,
-                                                state: 'waiting',
-                                                estimatedWaitMinutes: Math.ceil(estimatedWait / 60),
-                                                createdAt: new Date().toISOString()
-                                            });
-                                        });
+                                    if (err) {
+                                        return res.status(500).json({ error: 'Failed to commit transaction' });
                                     }
-                                );
+                                    
+                                    res.status(201).json({
+                                        id: ticketId,
+                                        ticketNumber,
+                                        serviceId,
+                                        serviceName: service.name,
+                                        state: 'waiting',
+                                        estimatedWaitMinutes: Math.ceil(estimatedWait / 60),
+                                        createdAt: new Date().toISOString()
+                                    });
+                                });
                             }
                         );
                     }
@@ -198,32 +196,29 @@ router.post('/terminal/call-next', (req, res) => {
                                         ).catch(err => console.error('Event logging failed:', err));
                                         
                                         db.run('COMMIT', (err) => {
-                                                    if (err) {
-                                                        return res.status(500).json({ error: 'Failed to commit transaction' });
-                                                    }
-                                                    
-                                                    res.json({
-                                                        id: ticket.id,
-                                                        ticketNumber: ticket.ticket_number,
-                                                        serviceId: ticket.service_id,
-                                                        serviceName: ticket.service_name,
-                                                        state: 'called',
-                                                        counterId,
-                                                        agentId,
-                                                        customerName: ticket.customer_name,
-                                                        calledAt: now
-                                                    });
-                                                });
+                                            if (err) {
+                                                return res.status(500).json({ error: 'Failed to commit transaction' });
                                             }
-                                        );
+                                            
+                                            res.json({
+                                                id: ticket.id,
+                                                ticketNumber: ticket.ticket_number,
+                                                serviceId: ticket.service_id,
+                                                serviceName: ticket.service_name,
+                                                state: 'called',
+                                                counterId,
+                                                agentId,
+                                                customerName: ticket.customer_name,
+                                                calledAt: now
+                                            });
+                                        });
                                     }
                                 );
                             }
                         );
                     }
                 );
-            }
-        );
+            });
     });
 });
 
@@ -316,21 +311,19 @@ router.post('/terminal/complete', (req, res) => {
                                 ).catch(err => console.error('Event logging failed:', err));
                                 
                                 db.run('COMMIT', (err) => {
-                                            if (err) {
-                                                return res.status(500).json({ error: 'Failed to commit transaction' });
-                                            }
-                                            
-                                            res.json({
-                                                id: ticketId,
-                                                ticketNumber: ticket.ticket_number,
-                                                state: 'completed',
-                                                completedAt,
-                                                serviceDurationSeconds: serviceDuration,
-                                                actualWaitSeconds: actualWait
-                                            });
-                                        });
+                                    if (err) {
+                                        return res.status(500).json({ error: 'Failed to commit transaction' });
                                     }
-                                );
+                                    
+                                    res.json({
+                                        id: ticketId,
+                                        ticketNumber: ticket.ticket_number,
+                                        state: 'completed',
+                                        completedAt,
+                                        serviceDurationSeconds: serviceDuration,
+                                        actualWaitSeconds: actualWait
+                                    });
+                                });
                             }
                         );
                     }
@@ -363,12 +356,95 @@ router.get('/monitor/now-serving', (req, res) => {
     res.json({ message: 'GET /api/monitor/now-serving - Not implemented' });
 });
 
+// GET /api/admin/settings - Get all settings
 router.get('/admin/settings', (req, res) => {
-    res.json({ message: 'GET /api/admin/settings - Not implemented' });
+  const { category } = req.query; // Optional category filter
+  const db = getDb();
+  
+  let sql = 'SELECT * FROM settings';
+  const params = [];
+  
+  if (category) {
+    sql += ' WHERE category = ?';
+    params.push(category);
+  }
+  
+  sql += ' ORDER BY category, key';
+  
+  db.all(sql, params, (err, settings) => {
+    if (err) {
+      console.error('Settings fetch error:', err);
+      return res.status(500).json({ error: 'Failed to fetch settings' });
+    }
+    
+    res.json({ settings });
+  });
 });
 
+// PUT /api/admin/settings - Update settings
 router.put('/admin/settings', (req, res) => {
-    res.json({ message: 'PUT /api/admin/settings - Not implemented' });
+  const { updates } = req.body; // Array of {key, value} objects
+  const db = getDb();
+  
+  if (!updates || !Array.isArray(updates)) {
+    return res.status(400).json({ error: 'Updates array required' });
+  }
+  
+  // Start transaction
+  db.run('BEGIN TRANSACTION', (err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Transaction failed' });
+    }
+    
+    let completedUpdates = 0;
+    let hasError = false;
+    
+    if (updates.length === 0) {
+      db.run('COMMIT', (commitErr) => {
+        if (commitErr) {
+          return res.status(500).json({ error: 'Failed to commit updates' });
+        }
+        res.json({ message: 'No settings to update', count: 0 });
+      });
+      return;
+    }
+    
+    updates.forEach((update, index) => {
+      if (hasError) return;
+      
+      const { key, value } = update;
+      if (!key || value === undefined) {
+        hasError = true;
+        db.run('ROLLBACK', () => {
+          res.status(400).json({ error: 'Invalid update format' });
+        });
+        return;
+      }
+      
+      const sql = 'UPDATE settings SET value = ?, updated_at = CURRENT_TIMESTAMP WHERE key = ?';
+      db.run(sql, [value, key], function(updateErr) {
+        if (updateErr || this.changes === 0) {
+          hasError = true;
+          db.run('ROLLBACK', () => {
+            res.status(400).json({ error: `Failed to update setting: ${key}` });
+          });
+          return;
+        }
+        
+        completedUpdates++;
+        
+        // If all updates complete, commit
+        if (completedUpdates === updates.length) {
+          db.run('COMMIT', (commitErr) => {
+            if (commitErr) {
+              return res.status(500).json({ error: 'Failed to commit updates' });
+            }
+            res.json({ message: 'Settings updated successfully', count: updates.length });
+          });
+        }
+      });
+    });
+  });
 });
 
 module.exports = router;
