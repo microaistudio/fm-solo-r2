@@ -10,6 +10,7 @@ const OUTBOUND_EVENTS = {
     TICKET_COMPLETED: 'ticket-completed',
     TICKET_PARKED: 'ticket-parked',
     TICKET_RECYCLED: 'ticket-recycled',
+    TICKET_TRANSFERRED: 'ticket-transferred',
     QUEUE_UPDATED: 'queue-updated',
     COUNTER_UPDATED: 'counter-updated',
     SYSTEM_ALERT: 'system-alert'

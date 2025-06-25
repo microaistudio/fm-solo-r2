@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getDb } = require('./database/connection');
 const { logEvent, EventTypes } = require('./database/events');
+const { broadcastTicketCreated, broadcastTicketCalled, broadcastTicketCompleted, broadcastQueueUpdated } = require('./realtime/eventBroadcaster');
 
 router.get('/kiosk/services', (req, res) => {
     res.json({ message: 'GET /api/kiosk/services - Not implemented' });
@@ -79,15 +80,40 @@ router.post('/kiosk/tickets', (req, res) => {
                                         return res.status(500).json({ error: 'Failed to commit transaction' });
                                     }
                                     
-                                    res.status(201).json({
-                                        id: ticketId,
-                                        ticketNumber,
-                                        serviceId,
-                                        serviceName: service.name,
-                                        state: 'waiting',
-                                        estimatedWaitMinutes: Math.ceil(estimatedWait / 60),
-                                        createdAt: new Date().toISOString()
-                                    });
+                                    // Get queue count for the service
+                                    db.get('SELECT COUNT(*) as count FROM tickets WHERE service_id = ? AND state = ?', 
+                                        [serviceId, 'waiting'], 
+                                        (err, result) => {
+                                            const queueCount = result ? result.count : 0;
+                                            
+                                            // Broadcast the event
+                                            const io = req.app.get('io');
+                                            if (io) {
+                                                broadcastTicketCreated(io, {
+                                                    id: ticketId,
+                                                    ticket_number: ticketNumber,
+                                                    service_id: serviceId,
+                                                    service_name: service.name,
+                                                    state: 'waiting',
+                                                    customer_name: customerName || 'Anonymous',
+                                                    created_at: new Date().toISOString()
+                                                }, {
+                                                    serviceId: serviceId,
+                                                    waiting: queueCount
+                                                });
+                                            }
+                                            
+                                            res.status(201).json({
+                                                id: ticketId,
+                                                ticketNumber,
+                                                serviceId,
+                                                serviceName: service.name,
+                                                state: 'waiting',
+                                                estimatedWaitMinutes: Math.ceil(estimatedWait / 60),
+                                                createdAt: new Date().toISOString()
+                                            });
+                                        }
+                                    );
                                 });
                             }
                         );
@@ -198,6 +224,26 @@ router.post('/terminal/call-next', (req, res) => {
                                         db.run('COMMIT', (err) => {
                                             if (err) {
                                                 return res.status(500).json({ error: 'Failed to commit transaction' });
+                                            }
+                                            
+                                            // Get counter and agent info (hardcoded for now)
+                                            const counterData = { id: counterId, name: `Counter ${counterId}`, number: counterId };
+                                            const agentData = { id: agentId, name: 'Agent' };
+                                            
+                                            // Broadcast the event
+                                            const io = req.app.get('io');
+                                            if (io) {
+                                                broadcastTicketCalled(io, {
+                                                    id: ticket.id,
+                                                    ticket_number: ticket.ticket_number,
+                                                    service_id: ticket.service_id,
+                                                    service_name: ticket.service_name,
+                                                    state: 'called',
+                                                    counter_id: counterId,
+                                                    agent_id: agentId,
+                                                    customer_name: ticket.customer_name,
+                                                    called_at: now
+                                                }, counterData, agentData);
                                             }
                                             
                                             res.json({
@@ -315,14 +361,41 @@ router.post('/terminal/complete', (req, res) => {
                                         return res.status(500).json({ error: 'Failed to commit transaction' });
                                     }
                                     
-                                    res.json({
-                                        id: ticketId,
-                                        ticketNumber: ticket.ticket_number,
-                                        state: 'completed',
-                                        completedAt,
-                                        serviceDurationSeconds: serviceDuration,
-                                        actualWaitSeconds: actualWait
-                                    });
+                                    // Get updated queue count
+                                    db.get('SELECT COUNT(*) as count FROM tickets WHERE service_id = ? AND state = ?',
+                                        [ticket.service_id, 'waiting'],
+                                        (err, result) => {
+                                            const queueCount = result ? result.count : 0;
+                                            
+                                            // Broadcast completion event
+                                            const io = req.app.get('io');
+                                            if (io) {
+                                                broadcastTicketCompleted(io, {
+                                                    id: ticketId,
+                                                    ticket_number: ticket.ticket_number,
+                                                    service_id: ticket.service_id,
+                                                    state: 'completed',
+                                                    counter_id: counterId,
+                                                    agent_id: agentId,
+                                                    completed_at: completedAt,
+                                                    service_duration: serviceDuration,
+                                                    actual_wait: actualWait
+                                                }, {
+                                                    serviceId: ticket.service_id,
+                                                    waiting: queueCount
+                                                });
+                                            }
+                                            
+                                            res.json({
+                                                id: ticketId,
+                                                ticketNumber: ticket.ticket_number,
+                                                state: 'completed',
+                                                completedAt,
+                                                serviceDurationSeconds: serviceDuration,
+                                                actualWaitSeconds: actualWait
+                                            });
+                                        }
+                                    );
                                 });
                             }
                         );
