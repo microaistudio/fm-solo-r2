@@ -7,22 +7,27 @@ const { EVENTS } = require('./eventTypes');
  * @param {Object} queueData - Current queue statistics
  */
 function broadcastTicketCreated(io, ticketData, queueData) {
-    // Broadcast to kiosk namespace (for confirmation)
-    io.of('/kiosk').emit(EVENTS.TICKET_CREATED, {
+    const eventData = {
         ticket: ticketData,
         queue: queueData,
         timestamp: new Date().toISOString()
-    });
+    };
 
-    // Broadcast to terminal namespace (agents see new ticket in queue)
-    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CREATED, {
-        ticket: ticketData,
+    // Broadcast to kiosk namespace - all-updates room for confirmation
+    io.of('/kiosk').to('all-updates').emit(EVENTS.TICKET_CREATED, eventData);
+    io.of('/kiosk').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CREATED, eventData);
+
+    // Broadcast to terminal namespace - both all-updates and service-specific rooms
+    io.of('/terminal').to('all-updates').emit(EVENTS.TICKET_CREATED, eventData);
+    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CREATED, eventData);
+
+    // Broadcast to monitor namespace - both all-updates and service-specific rooms
+    io.of('/monitor').to('all-updates').emit(EVENTS.QUEUE_UPDATED, {
+        serviceId: ticketData.service_id,
         queue: queueData,
         timestamp: new Date().toISOString()
     });
-
-    // Broadcast to monitor namespace (update display screens)
-    io.of('/monitor').emit(EVENTS.QUEUE_UPDATED, {
+    io.of('/monitor').to(`service-${ticketData.service_id}`).emit(EVENTS.QUEUE_UPDATED, {
         serviceId: ticketData.service_id,
         queue: queueData,
         timestamp: new Date().toISOString()
@@ -37,36 +42,39 @@ function broadcastTicketCreated(io, ticketData, queueData) {
  * @param {Object} agentData - The agent information
  */
 function broadcastTicketCalled(io, ticketData, counterData, agentData) {
-    // Broadcast to monitor namespace (main display)
-    io.of('/monitor').emit(EVENTS.TICKET_CALLED, {
+    const ticketCalledData = {
         ticket: ticketData,
         counter: counterData,
         agent: agentData,
         timestamp: new Date().toISOString()
-    });
+    };
 
-    // Broadcast to customer namespace (counter-specific display)
+    // Broadcast to monitor namespace - all rooms
+    io.of('/monitor').to('all-updates').emit(EVENTS.TICKET_CALLED, ticketCalledData);
+    io.of('/monitor').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CALLED, ticketCalledData);
+    io.of('/monitor').to(`counter-${counterData.id}`).emit(EVENTS.TICKET_CALLED, ticketCalledData);
+
+    // Broadcast to customer namespace - counter-specific room
     io.of('/customer').to(`counter-${counterData.id}`).emit(EVENTS.TICKET_CALLED, {
         ticket: ticketData,
         counter: counterData,
         timestamp: new Date().toISOString()
     });
 
-    // Broadcast to terminal namespace (update other agents)
-    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CALLED, {
-        ticket: ticketData,
-        counter: counterData,
-        agent: agentData,
-        timestamp: new Date().toISOString()
-    });
+    // Broadcast to terminal namespace - all rooms
+    io.of('/terminal').to('all-updates').emit(EVENTS.TICKET_CALLED, ticketCalledData);
+    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_CALLED, ticketCalledData);
+    io.of('/terminal').to(`counter-${counterData.id}`).emit(EVENTS.TICKET_CALLED, ticketCalledData);
 
     // Update counter status
-    io.of('/monitor').emit(EVENTS.COUNTER_UPDATED, {
+    const counterUpdateData = {
         counter: counterData,
         status: 'serving',
         currentTicket: ticketData,
         timestamp: new Date().toISOString()
-    });
+    };
+    io.of('/monitor').to('all-updates').emit(EVENTS.COUNTER_UPDATED, counterUpdateData);
+    io.of('/monitor').to(`counter-${counterData.id}`).emit(EVENTS.COUNTER_UPDATED, counterUpdateData);
 }
 
 /**
@@ -76,34 +84,45 @@ function broadcastTicketCalled(io, ticketData, counterData, agentData) {
  * @param {Object} queueData - Updated queue statistics
  */
 function broadcastTicketCompleted(io, ticketData, queueData) {
-    // Broadcast to terminal namespace (agents see completed ticket)
-    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_COMPLETED, {
+    const completedData = {
         ticket: ticketData,
         queue: queueData,
         timestamp: new Date().toISOString()
-    });
+    };
 
-    // Broadcast to monitor namespace (update displays)
-    io.of('/monitor').emit(EVENTS.TICKET_COMPLETED, {
+    // Broadcast to terminal namespace - both all-updates and service-specific rooms
+    io.of('/terminal').to('all-updates').emit(EVENTS.TICKET_COMPLETED, completedData);
+    io.of('/terminal').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_COMPLETED, completedData);
+
+    // Broadcast to monitor namespace - both all-updates and service-specific rooms
+    io.of('/monitor').to('all-updates').emit(EVENTS.TICKET_COMPLETED, {
+        ticket: ticketData,
+        timestamp: new Date().toISOString()
+    });
+    io.of('/monitor').to(`service-${ticketData.service_id}`).emit(EVENTS.TICKET_COMPLETED, {
         ticket: ticketData,
         timestamp: new Date().toISOString()
     });
 
     // Update queue on monitor
-    io.of('/monitor').emit(EVENTS.QUEUE_UPDATED, {
+    const queueUpdateData = {
         serviceId: ticketData.service_id,
         queue: queueData,
         timestamp: new Date().toISOString()
-    });
+    };
+    io.of('/monitor').to('all-updates').emit(EVENTS.QUEUE_UPDATED, queueUpdateData);
+    io.of('/monitor').to(`service-${ticketData.service_id}`).emit(EVENTS.QUEUE_UPDATED, queueUpdateData);
 
     // Update counter status (now available)
     if (ticketData.counter_id) {
-        io.of('/monitor').emit(EVENTS.COUNTER_UPDATED, {
+        const counterUpdateData = {
             counterId: ticketData.counter_id,
             status: 'available',
             currentTicket: null,
             timestamp: new Date().toISOString()
-        });
+        };
+        io.of('/monitor').to('all-updates').emit(EVENTS.COUNTER_UPDATED, counterUpdateData);
+        io.of('/monitor').to(`counter-${ticketData.counter_id}`).emit(EVENTS.COUNTER_UPDATED, counterUpdateData);
     }
 }
 
@@ -114,26 +133,20 @@ function broadcastTicketCompleted(io, ticketData, queueData) {
  * @param {Object} queueData - Current queue statistics
  */
 function broadcastQueueUpdated(io, serviceId, queueData) {
-    // Broadcast to monitor namespace
-    io.of('/monitor').emit(EVENTS.QUEUE_UPDATED, {
+    const queueUpdateData = {
         serviceId: serviceId,
         queue: queueData,
         timestamp: new Date().toISOString()
-    });
+    };
 
-    // Broadcast to terminal namespace (service-specific room)
-    io.of('/terminal').to(`service-${serviceId}`).emit(EVENTS.QUEUE_UPDATED, {
-        serviceId: serviceId,
-        queue: queueData,
-        timestamp: new Date().toISOString()
-    });
+    // Broadcast to monitor namespace - service-specific room only
+    io.of('/monitor').to(`service-${serviceId}`).emit(EVENTS.QUEUE_UPDATED, queueUpdateData);
 
-    // Broadcast to kiosk namespace (for queue length display)
-    io.of('/kiosk').emit(EVENTS.QUEUE_UPDATED, {
-        serviceId: serviceId,
-        queue: queueData,
-        timestamp: new Date().toISOString()
-    });
+    // Broadcast to terminal namespace - service-specific room only
+    io.of('/terminal').to(`service-${serviceId}`).emit(EVENTS.QUEUE_UPDATED, queueUpdateData);
+
+    // Broadcast to kiosk namespace - service-specific room only
+    io.of('/kiosk').to(`service-${serviceId}`).emit(EVENTS.QUEUE_UPDATED, queueUpdateData);
 }
 
 module.exports = {
