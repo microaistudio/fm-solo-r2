@@ -1,0 +1,579 @@
+
+> flowmatic-solo-r2@2.0.0 start
+> node src/server.js
+
+Connected to SQLite database at /mnt/e/GIT-Repos/FlowMaticDev/FlowMatic-Solo-R2/FM-SOLO-R2/data/flowmatic.db
+Socket.IO namespaces initialized with connection tracking
+FlowMatic-SOLO server running on port 5050
+Socket.IO server ready with connection tracking
+Starting heartbeat system...
+Heartbeat system started (interval: 30000ms)
+[ConnectionManager] Added rWQ3mD0csYDv_svZAAAD to /terminal. Total: 1
+Client connected to /terminal: rWQ3mD0csYDv_svZAAAD
+[ConnectionManager] Socket rWQ3mD0csYDv_svZAAAD joined room: service-1
+Socket rWQ3mD0csYDv_svZAAAD joined room: service-1
+[ConnectionManager] Socket rWQ3mD0csYDv_svZAAAD joined room: counter-1
+Socket rWQ3mD0csYDv_svZAAAD joined room: counter-1
+[ConnectionManager] Socket rWQ3mD0csYDv_svZAAAD joined room: service-2
+Socket rWQ3mD0csYDv_svZAAAD joined room: service-2
+Client disconnected from /terminal: rWQ3mD0csYDv_svZAAAD (transport close)
+[ConnectionManager] Removed rWQ3mD0csYDv_svZAAAD from /terminal. Total: 0
+[ConnectionManager] Added wKLk1v5exkbdUhlQAAAF to /terminal. Total: 1
+Client connected to /terminal: wKLk1v5exkbdUhlQAAAF
+[ConnectionManager] Socket wKLk1v5exkbdUhlQAAAF joined room: service-1
+Socket wKLk1v5exkbdUhlQAAAF joined room: service-1
+[ConnectionManager] Socket wKLk1v5exkbdUhlQAAAF joined room: counter-1
+Socket wKLk1v5exkbdUhlQAAAF joined room: counter-1
+[ConnectionManager] Socket wKLk1v5exkbdUhlQAAAF joined room: service-2
+Socket wKLk1v5exkbdUhlQAAAF joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1750992280583,
+    namespace: '/terminal',
+    socketId: 'rWQ3mD0csYDv_svZAAAD'
+  }
+]
+Client disconnected from /terminal: wKLk1v5exkbdUhlQAAAF (transport close)
+[ConnectionManager] Removed wKLk1v5exkbdUhlQAAAF from /terminal. Total: 0
+[ConnectionManager] Added 2isM9qi_XwPS5aXEAAAH to /terminal. Total: 1
+Client connected to /terminal: 2isM9qi_XwPS5aXEAAAH
+[ConnectionManager] Socket 2isM9qi_XwPS5aXEAAAH joined room: service-1
+Socket 2isM9qi_XwPS5aXEAAAH joined room: service-1
+[ConnectionManager] Socket 2isM9qi_XwPS5aXEAAAH joined room: counter-1
+Socket 2isM9qi_XwPS5aXEAAAH joined room: counter-1
+[ConnectionManager] Socket 2isM9qi_XwPS5aXEAAAH joined room: service-2
+Socket 2isM9qi_XwPS5aXEAAAH joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1750993180830,
+    namespace: '/terminal',
+    socketId: 'wKLk1v5exkbdUhlQAAAF'
+  }
+]
+[ConnectionManager] Socket 2isM9qi_XwPS5aXEAAAH joined room: service-3
+Socket 2isM9qi_XwPS5aXEAAAH joined room: service-3
+[ConnectionManager] Socket 2isM9qi_XwPS5aXEAAAH joined room: service-4
+Socket 2isM9qi_XwPS5aXEAAAH joined room: service-4
+Client disconnected from /terminal: 2isM9qi_XwPS5aXEAAAH (transport close)
+[ConnectionManager] Removed 2isM9qi_XwPS5aXEAAAH from /terminal. Total: 0
+[ConnectionManager] Added g4J0_uJCVIk5nd5CAAAJ to /terminal. Total: 1
+Client connected to /terminal: g4J0_uJCVIk5nd5CAAAJ
+[ConnectionManager] Socket g4J0_uJCVIk5nd5CAAAJ joined room: service-1
+Socket g4J0_uJCVIk5nd5CAAAJ joined room: service-1
+[ConnectionManager] Socket g4J0_uJCVIk5nd5CAAAJ joined room: counter-1
+Socket g4J0_uJCVIk5nd5CAAAJ joined room: counter-1
+[ConnectionManager] Socket g4J0_uJCVIk5nd5CAAAJ joined room: service-2
+Socket g4J0_uJCVIk5nd5CAAAJ joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1750993780985,
+    namespace: '/terminal',
+    socketId: '2isM9qi_XwPS5aXEAAAH'
+  }
+]
+Client disconnected from /terminal: g4J0_uJCVIk5nd5CAAAJ (transport close)
+[ConnectionManager] Removed g4J0_uJCVIk5nd5CAAAJ from /terminal. Total: 0
+[ConnectionManager] Added EyguhR2sVD-VoahPAAAL to /terminal. Total: 1
+Client connected to /terminal: EyguhR2sVD-VoahPAAAL
+[ConnectionManager] Socket EyguhR2sVD-VoahPAAAL joined room: service-1
+Socket EyguhR2sVD-VoahPAAAL joined room: service-1
+[ConnectionManager] Socket EyguhR2sVD-VoahPAAAL joined room: counter-1
+Socket EyguhR2sVD-VoahPAAAL joined room: counter-1
+[ConnectionManager] Socket EyguhR2sVD-VoahPAAAL joined room: service-3
+Socket EyguhR2sVD-VoahPAAAL joined room: service-3
+Detected 1 dead connections: [
+  {
+    lastSeen: 1750994141211,
+    namespace: '/terminal',
+    socketId: 'g4J0_uJCVIk5nd5CAAAJ'
+  }
+]
+Client disconnected from /terminal: EyguhR2sVD-VoahPAAAL (transport close)
+[ConnectionManager] Removed EyguhR2sVD-VoahPAAAL from /terminal. Total: 0
+Detected 1 dead connections: [
+  {
+    lastSeen: 1750997471917,
+    namespace: '/terminal',
+    socketId: 'EyguhR2sVD-VoahPAAAL'
+  }
+]
+[ConnectionManager] Added kNXBrBoTUVz9FcuJAAAU to /terminal. Total: 1
+Client connected to /terminal: kNXBrBoTUVz9FcuJAAAU
+[ConnectionManager] Socket kNXBrBoTUVz9FcuJAAAU joined room: service-2
+Socket kNXBrBoTUVz9FcuJAAAU joined room: service-2
+[ConnectionManager] Socket kNXBrBoTUVz9FcuJAAAU joined room: service-3
+Socket kNXBrBoTUVz9FcuJAAAU joined room: service-3
+Client disconnected from /terminal: kNXBrBoTUVz9FcuJAAAU (transport close)
+[ConnectionManager] Removed kNXBrBoTUVz9FcuJAAAU from /terminal. Total: 0
+[ConnectionManager] Added w1bi_8rK1i-rJAI0AAAW to /terminal. Total: 1
+Client connected to /terminal: w1bi_8rK1i-rJAI0AAAW
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751003906039,
+    namespace: '/terminal',
+    socketId: 'kNXBrBoTUVz9FcuJAAAU'
+  }
+]
+Client disconnected from /terminal: w1bi_8rK1i-rJAI0AAAW (transport close)
+[ConnectionManager] Removed w1bi_8rK1i-rJAI0AAAW from /terminal. Total: 0
+[ConnectionManager] Added lGykJlG1kOVayhWPAAAY to /terminal. Total: 1
+Client connected to /terminal: lGykJlG1kOVayhWPAAAY
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751003966043,
+    namespace: '/terminal',
+    socketId: 'w1bi_8rK1i-rJAI0AAAW'
+  }
+]
+Client disconnected from /terminal: lGykJlG1kOVayhWPAAAY (transport close)
+[ConnectionManager] Removed lGykJlG1kOVayhWPAAAY from /terminal. Total: 0
+[ConnectionManager] Added THk54SfBXJypfg5aAAAa to /terminal. Total: 1
+Client connected to /terminal: THk54SfBXJypfg5aAAAa
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751004386156,
+    namespace: '/terminal',
+    socketId: 'lGykJlG1kOVayhWPAAAY'
+  }
+]
+[ConnectionManager] Socket THk54SfBXJypfg5aAAAa joined room: service-2
+Socket THk54SfBXJypfg5aAAAa joined room: service-2
+[ConnectionManager] Socket THk54SfBXJypfg5aAAAa joined room: service-4
+Socket THk54SfBXJypfg5aAAAa joined room: service-4
+Client disconnected from /terminal: THk54SfBXJypfg5aAAAa (transport close)
+[ConnectionManager] Removed THk54SfBXJypfg5aAAAa from /terminal. Total: 0
+[ConnectionManager] Added VJNhy3vWMkdTOEWbAAAc to /terminal. Total: 1
+Client connected to /terminal: VJNhy3vWMkdTOEWbAAAc
+[ConnectionManager] Socket VJNhy3vWMkdTOEWbAAAc joined room: counter-2
+Socket VJNhy3vWMkdTOEWbAAAc joined room: counter-2
+[ConnectionManager] Socket VJNhy3vWMkdTOEWbAAAc joined room: service-2
+Socket VJNhy3vWMkdTOEWbAAAc joined room: service-2
+[ConnectionManager] Socket VJNhy3vWMkdTOEWbAAAc joined room: service-1
+Socket VJNhy3vWMkdTOEWbAAAc joined room: service-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751005076786,
+    namespace: '/terminal',
+    socketId: 'THk54SfBXJypfg5aAAAa'
+  }
+]
+Client disconnected from /terminal: VJNhy3vWMkdTOEWbAAAc (transport close)
+[ConnectionManager] Removed VJNhy3vWMkdTOEWbAAAc from /terminal. Total: 0
+[ConnectionManager] Added DXCT1ZWWFHhpjdwpAAAe to /terminal. Total: 1
+Client connected to /terminal: DXCT1ZWWFHhpjdwpAAAe
+[ConnectionManager] Socket DXCT1ZWWFHhpjdwpAAAe joined room: counter-3
+Socket DXCT1ZWWFHhpjdwpAAAe joined room: counter-3
+Client disconnected from /terminal: DXCT1ZWWFHhpjdwpAAAe (transport close)
+[ConnectionManager] Removed DXCT1ZWWFHhpjdwpAAAe from /terminal. Total: 0
+[ConnectionManager] Added FmC9dMqrJZDqF2eKAAAg to /terminal. Total: 1
+Client connected to /terminal: FmC9dMqrJZDqF2eKAAAg
+[ConnectionManager] Socket FmC9dMqrJZDqF2eKAAAg joined room: counter-1
+Socket FmC9dMqrJZDqF2eKAAAg joined room: counter-1
+Detected 2 dead connections: [
+  {
+    lastSeen: 1751005646749,
+    namespace: '/terminal',
+    socketId: 'VJNhy3vWMkdTOEWbAAAc'
+  },
+  {
+    lastSeen: 1751005676748,
+    namespace: '/terminal',
+    socketId: 'DXCT1ZWWFHhpjdwpAAAe'
+  }
+]
+Client disconnected from /terminal: FmC9dMqrJZDqF2eKAAAg (transport close)
+[ConnectionManager] Removed FmC9dMqrJZDqF2eKAAAg from /terminal. Total: 0
+[ConnectionManager] Added IcoA8xtkpTW2w4f9AAAi to /terminal. Total: 1
+Client connected to /terminal: IcoA8xtkpTW2w4f9AAAi
+[ConnectionManager] Socket IcoA8xtkpTW2w4f9AAAi joined room: counter-1
+Socket IcoA8xtkpTW2w4f9AAAi joined room: counter-1
+[ConnectionManager] Socket IcoA8xtkpTW2w4f9AAAi joined room: service-2
+Socket IcoA8xtkpTW2w4f9AAAi joined room: service-2
+[ConnectionManager] Socket IcoA8xtkpTW2w4f9AAAi joined room: service-4
+Socket IcoA8xtkpTW2w4f9AAAi joined room: service-4
+[ConnectionManager] Socket IcoA8xtkpTW2w4f9AAAi joined room: service-2
+Socket IcoA8xtkpTW2w4f9AAAi joined room: service-2
+[ConnectionManager] Socket IcoA8xtkpTW2w4f9AAAi joined room: service-1
+Socket IcoA8xtkpTW2w4f9AAAi joined room: service-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751005766769,
+    namespace: '/terminal',
+    socketId: 'FmC9dMqrJZDqF2eKAAAg'
+  }
+]
+Client disconnected from /terminal: IcoA8xtkpTW2w4f9AAAi (transport close)
+[ConnectionManager] Removed IcoA8xtkpTW2w4f9AAAi from /terminal. Total: 0
+[ConnectionManager] Added owmbHO3kX5EPwZVaAAAk to /terminal. Total: 1
+Client connected to /terminal: owmbHO3kX5EPwZVaAAAk
+[ConnectionManager] Socket owmbHO3kX5EPwZVaAAAk joined room: counter-1
+Socket owmbHO3kX5EPwZVaAAAk joined room: counter-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751007297217,
+    namespace: '/terminal',
+    socketId: 'IcoA8xtkpTW2w4f9AAAi'
+  }
+]
+Client disconnected from /terminal: owmbHO3kX5EPwZVaAAAk (transport close)
+[ConnectionManager] Removed owmbHO3kX5EPwZVaAAAk from /terminal. Total: 0
+[ConnectionManager] Added YDGJbrNM3o1EURWLAAAm to /terminal. Total: 1
+Client connected to /terminal: YDGJbrNM3o1EURWLAAAm
+[ConnectionManager] Socket YDGJbrNM3o1EURWLAAAm joined room: counter-1
+Socket YDGJbrNM3o1EURWLAAAm joined room: counter-1
+[ConnectionManager] Socket YDGJbrNM3o1EURWLAAAm joined room: service-2
+Socket YDGJbrNM3o1EURWLAAAm joined room: service-2
+[ConnectionManager] Socket YDGJbrNM3o1EURWLAAAm joined room: service-4
+Socket YDGJbrNM3o1EURWLAAAm joined room: service-4
+[ConnectionManager] Socket YDGJbrNM3o1EURWLAAAm joined room: service-2
+Socket YDGJbrNM3o1EURWLAAAm joined room: service-2
+[ConnectionManager] Socket YDGJbrNM3o1EURWLAAAm joined room: service-1
+Socket YDGJbrNM3o1EURWLAAAm joined room: service-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751007387223,
+    namespace: '/terminal',
+    socketId: 'owmbHO3kX5EPwZVaAAAk'
+  }
+]
+Client disconnected from /terminal: YDGJbrNM3o1EURWLAAAm (transport close)
+[ConnectionManager] Removed YDGJbrNM3o1EURWLAAAm from /terminal. Total: 0
+[ConnectionManager] Added irE3AcSbjP-QF04XAAAo to /terminal. Total: 1
+Client connected to /terminal: irE3AcSbjP-QF04XAAAo
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: counter-1
+Socket irE3AcSbjP-QF04XAAAo joined room: counter-1
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751008437434,
+    namespace: '/terminal',
+    socketId: 'YDGJbrNM3o1EURWLAAAm'
+  }
+]
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-3
+Socket irE3AcSbjP-QF04XAAAo joined room: service-3
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-3
+Socket irE3AcSbjP-QF04XAAAo joined room: service-3
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+Socket irE3AcSbjP-QF04XAAAo joined room: service-1
+[ConnectionManager] Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Socket irE3AcSbjP-QF04XAAAo joined room: service-2
+Client disconnected from /terminal: irE3AcSbjP-QF04XAAAo (transport close)
+[ConnectionManager] Removed irE3AcSbjP-QF04XAAAo from /terminal. Total: 0
+[ConnectionManager] Added d54HkC8zh4lotDcJAAAq to /terminal. Total: 1
+Client connected to /terminal: d54HkC8zh4lotDcJAAAq
+[ConnectionManager] Socket d54HkC8zh4lotDcJAAAq joined room: counter-2
+Socket d54HkC8zh4lotDcJAAAq joined room: counter-2
+[ConnectionManager] Socket d54HkC8zh4lotDcJAAAq joined room: service-2
+Socket d54HkC8zh4lotDcJAAAq joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751009667775,
+    namespace: '/terminal',
+    socketId: 'irE3AcSbjP-QF04XAAAo'
+  }
+]
+Client disconnected from /terminal: d54HkC8zh4lotDcJAAAq (transport close)
+[ConnectionManager] Removed d54HkC8zh4lotDcJAAAq from /terminal. Total: 0
+[ConnectionManager] Added vwQWFOPSP4vvgLOJAAAs to /terminal. Total: 1
+Client connected to /terminal: vwQWFOPSP4vvgLOJAAAs
+[ConnectionManager] Socket vwQWFOPSP4vvgLOJAAAs joined room: counter-1
+Socket vwQWFOPSP4vvgLOJAAAs joined room: counter-1
+[ConnectionManager] Socket vwQWFOPSP4vvgLOJAAAs joined room: service-4
+Socket vwQWFOPSP4vvgLOJAAAs joined room: service-4
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751009967823,
+    namespace: '/terminal',
+    socketId: 'd54HkC8zh4lotDcJAAAq'
+  }
+]
+Client disconnected from /terminal: vwQWFOPSP4vvgLOJAAAs (client namespace disconnect)
+[ConnectionManager] Removed vwQWFOPSP4vvgLOJAAAs from /terminal. Total: 0
+[ConnectionManager] Added h8vSzew8nP9yPVJdAAAu to /terminal. Total: 1
+Client connected to /terminal: h8vSzew8nP9yPVJdAAAu
+[ConnectionManager] Socket h8vSzew8nP9yPVJdAAAu joined room: counter-3
+Socket h8vSzew8nP9yPVJdAAAu joined room: counter-3
+[ConnectionManager] Socket h8vSzew8nP9yPVJdAAAu joined room: service-2
+Socket h8vSzew8nP9yPVJdAAAu joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751010027838,
+    namespace: '/terminal',
+    socketId: 'vwQWFOPSP4vvgLOJAAAs'
+  }
+]
+[ConnectionManager] Socket h8vSzew8nP9yPVJdAAAu joined room: service-1
+Socket h8vSzew8nP9yPVJdAAAu joined room: service-1
+[ConnectionManager] Socket h8vSzew8nP9yPVJdAAAu joined room: service-2
+Socket h8vSzew8nP9yPVJdAAAu joined room: service-2
+Client disconnected from /terminal: h8vSzew8nP9yPVJdAAAu (transport close)
+[ConnectionManager] Removed h8vSzew8nP9yPVJdAAAu from /terminal. Total: 0
+[ConnectionManager] Added 1v2LHjYoDRmnq8arAAAw to /terminal. Total: 1
+Client connected to /terminal: 1v2LHjYoDRmnq8arAAAw
+[ConnectionManager] Socket 1v2LHjYoDRmnq8arAAAw joined room: counter-1
+Socket 1v2LHjYoDRmnq8arAAAw joined room: counter-1
+[ConnectionManager] Socket 1v2LHjYoDRmnq8arAAAw joined room: service-2
+Socket 1v2LHjYoDRmnq8arAAAw joined room: service-2
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751010117851,
+    namespace: '/terminal',
+    socketId: 'h8vSzew8nP9yPVJdAAAu'
+  }
+]
+[ConnectionManager] Added FOsXFMfr5rFdI2YcAAAy to /kiosk. Total: 1
+Client connected to /kiosk: FOsXFMfr5rFdI2YcAAAy
+[ConnectionManager] Socket FOsXFMfr5rFdI2YcAAAy joined room: all-updates
+Socket FOsXFMfr5rFdI2YcAAAy joined room: all-updates
+[ConnectionManager] Socket 1v2LHjYoDRmnq8arAAAw joined room: service-1
+Socket 1v2LHjYoDRmnq8arAAAw joined room: service-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751011071186,
+    namespace: '/kiosk',
+    socketId: 'FOsXFMfr5rFdI2YcAAAy'
+  }
+]
+Client disconnected from /kiosk: FOsXFMfr5rFdI2YcAAAy (ping timeout)
+[ConnectionManager] Removed FOsXFMfr5rFdI2YcAAAy from /kiosk. Total: 0
+[ConnectionManager] Added zyWRhwlPu_y9ZesAAAA0 to /kiosk. Total: 1
+Client connected to /kiosk: zyWRhwlPu_y9ZesAAAA0
+[ConnectionManager] Socket zyWRhwlPu_y9ZesAAAA0 joined room: all-updates
+Socket zyWRhwlPu_y9ZesAAAA0 joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751016748546,
+    namespace: '/kiosk',
+    socketId: 'zyWRhwlPu_y9ZesAAAA0'
+  }
+]
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751026262911,
+    namespace: '/terminal',
+    socketId: '1v2LHjYoDRmnq8arAAAw'
+  }
+]
+Client disconnected from /terminal: 1v2LHjYoDRmnq8arAAAw (transport close)
+[ConnectionManager] Removed 1v2LHjYoDRmnq8arAAAw from /terminal. Total: 0
+Client disconnected from /kiosk: zyWRhwlPu_y9ZesAAAA0 (transport close)
+[ConnectionManager] Removed zyWRhwlPu_y9ZesAAAA0 from /kiosk. Total: 0
+[ConnectionManager] Added rrLxwBlyadbkK8bKAABA to /terminal. Total: 1
+Client connected to /terminal: rrLxwBlyadbkK8bKAABA
+[ConnectionManager] Socket rrLxwBlyadbkK8bKAABA joined room: service-1
+Socket rrLxwBlyadbkK8bKAABA joined room: service-1
+[ConnectionManager] Socket rrLxwBlyadbkK8bKAABA joined room: counter-1
+Socket rrLxwBlyadbkK8bKAABA joined room: counter-1
+Client disconnected from /terminal: rrLxwBlyadbkK8bKAABA (ping timeout)
+[ConnectionManager] Removed rrLxwBlyadbkK8bKAABA from /terminal. Total: 0
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751026666597,
+    namespace: '/terminal',
+    socketId: 'rrLxwBlyadbkK8bKAABA'
+  }
+]
+[ConnectionManager] Added jJ_yCd2blP9UeNGpAABC to /terminal. Total: 1
+Client connected to /terminal: jJ_yCd2blP9UeNGpAABC
+[ConnectionManager] Socket jJ_yCd2blP9UeNGpAABC joined room: service-1
+Socket jJ_yCd2blP9UeNGpAABC joined room: service-1
+[ConnectionManager] Socket jJ_yCd2blP9UeNGpAABC joined room: counter-1
+Socket jJ_yCd2blP9UeNGpAABC joined room: counter-1
+[ConnectionManager] Added YlsystWsPL7OErYgAABE to /kiosk. Total: 1
+Client connected to /kiosk: YlsystWsPL7OErYgAABE
+[ConnectionManager] Socket YlsystWsPL7OErYgAABE joined room: all-updates
+Socket YlsystWsPL7OErYgAABE joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751026795656,
+    namespace: '/kiosk',
+    socketId: 'YlsystWsPL7OErYgAABE'
+  }
+]
+[ConnectionManager] Added bk05nqZOhYnHG_L5AABG to /monitor. Total: 1
+Client connected to /monitor: bk05nqZOhYnHG_L5AABG
+[ConnectionManager] Socket bk05nqZOhYnHG_L5AABG joined room: all-updates
+Socket bk05nqZOhYnHG_L5AABG joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751026986997,
+    namespace: '/monitor',
+    socketId: 'bk05nqZOhYnHG_L5AABG'
+  }
+]
+Client disconnected from /monitor: bk05nqZOhYnHG_L5AABG (transport close)
+[ConnectionManager] Removed bk05nqZOhYnHG_L5AABG from /monitor. Total: 0
+[ConnectionManager] Added SDGSFXu6_2jYJjuKAABI to /monitor. Total: 1
+Client connected to /monitor: SDGSFXu6_2jYJjuKAABI
+[ConnectionManager] Socket SDGSFXu6_2jYJjuKAABI joined room: all-updates
+Socket SDGSFXu6_2jYJjuKAABI joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751027695562,
+    namespace: '/monitor',
+    socketId: 'SDGSFXu6_2jYJjuKAABI'
+  }
+]
+Client disconnected from /monitor: SDGSFXu6_2jYJjuKAABI (transport close)
+[ConnectionManager] Removed SDGSFXu6_2jYJjuKAABI from /monitor. Total: 0
+[ConnectionManager] Added LyuXZ448EXh8Vr1vAABK to /monitor. Total: 1
+Client connected to /monitor: LyuXZ448EXh8Vr1vAABK
+[ConnectionManager] Socket LyuXZ448EXh8Vr1vAABK joined room: all-updates
+Socket LyuXZ448EXh8Vr1vAABK joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751028747048,
+    namespace: '/monitor',
+    socketId: 'LyuXZ448EXh8Vr1vAABK'
+  }
+]
+Client disconnected from /monitor: LyuXZ448EXh8Vr1vAABK (transport close)
+[ConnectionManager] Removed LyuXZ448EXh8Vr1vAABK from /monitor. Total: 0
+[ConnectionManager] Added AO01CJmd4Mcyk9xNAABM to /monitor. Total: 1
+Client connected to /monitor: AO01CJmd4Mcyk9xNAABM
+[ConnectionManager] Socket AO01CJmd4Mcyk9xNAABM joined room: all-updates
+Socket AO01CJmd4Mcyk9xNAABM joined room: all-updates
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751029804891,
+    namespace: '/monitor',
+    socketId: 'AO01CJmd4Mcyk9xNAABM'
+  }
+]
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751030886301,
+    namespace: '/terminal',
+    socketId: 'jJ_yCd2blP9UeNGpAABC'
+  }
+]
+Client disconnected from /kiosk: YlsystWsPL7OErYgAABE (transport error)
+[ConnectionManager] Removed YlsystWsPL7OErYgAABE from /kiosk. Total: 0
+Client disconnected from /terminal: jJ_yCd2blP9UeNGpAABC (transport error)
+[ConnectionManager] Removed jJ_yCd2blP9UeNGpAABC from /terminal. Total: 0
+Client disconnected from /monitor: AO01CJmd4Mcyk9xNAABM (transport error)
+[ConnectionManager] Removed AO01CJmd4Mcyk9xNAABM from /monitor. Total: 0
+[ConnectionManager] Added iCrWT3I0fEpQ37XBAABV to /monitor. Total: 1
+Client connected to /monitor: iCrWT3I0fEpQ37XBAABV
+[ConnectionManager] Added JL9R8tPDvda7yF6hAABW to /terminal. Total: 1
+Client connected to /terminal: JL9R8tPDvda7yF6hAABW
+[ConnectionManager] Added XcQZVk0h2qUJNUfUAABX to /kiosk. Total: 1
+Client connected to /kiosk: XcQZVk0h2qUJNUfUAABX
+[ConnectionManager] Socket iCrWT3I0fEpQ37XBAABV joined room: all-updates
+Socket iCrWT3I0fEpQ37XBAABV joined room: all-updates
+[ConnectionManager] Socket JL9R8tPDvda7yF6hAABW joined room: service-1
+Socket JL9R8tPDvda7yF6hAABW joined room: service-1
+[ConnectionManager] Socket XcQZVk0h2qUJNUfUAABX joined room: all-updates
+Socket XcQZVk0h2qUJNUfUAABX joined room: all-updates
+[ConnectionManager] Socket JL9R8tPDvda7yF6hAABW joined room: counter-1
+Socket JL9R8tPDvda7yF6hAABW joined room: counter-1
+Detected 2 dead connections: [
+  {
+    lastSeen: 1751031059856,
+    namespace: '/monitor',
+    socketId: 'iCrWT3I0fEpQ37XBAABV'
+  },
+  {
+    lastSeen: 1751031059916,
+    namespace: '/kiosk',
+    socketId: 'XcQZVk0h2qUJNUfUAABX'
+  }
+]
+Client disconnected from /monitor: iCrWT3I0fEpQ37XBAABV (transport close)
+[ConnectionManager] Removed iCrWT3I0fEpQ37XBAABV from /monitor. Total: 0
+[ConnectionManager] Added ViYEOkVUfPcmEMRrAABb to /monitor. Total: 1
+Client connected to /monitor: ViYEOkVUfPcmEMRrAABb
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751031533523,
+    namespace: '/monitor',
+    socketId: 'ViYEOkVUfPcmEMRrAABb'
+  }
+]
+Client disconnected from /monitor: ViYEOkVUfPcmEMRrAABb (transport close)
+[ConnectionManager] Removed ViYEOkVUfPcmEMRrAABb from /monitor. Total: 0
+[ConnectionManager] Added Ak00IWDoAcsLYkLfAABd to /monitor. Total: 1
+Client connected to /monitor: Ak00IWDoAcsLYkLfAABd
+Client disconnected from /monitor: Ak00IWDoAcsLYkLfAABd (transport close)
+[ConnectionManager] Removed Ak00IWDoAcsLYkLfAABd from /monitor. Total: 0
+[ConnectionManager] Added olFl5E40Y64ebCLzAABf to /monitor. Total: 1
+Client connected to /monitor: olFl5E40Y64ebCLzAABf
+Client disconnected from /monitor: olFl5E40Y64ebCLzAABf (transport close)
+[ConnectionManager] Removed olFl5E40Y64ebCLzAABf from /monitor. Total: 0
+[ConnectionManager] Added iOvpm7dDSPa8XTdYAABh to /monitor. Total: 1
+Client connected to /monitor: iOvpm7dDSPa8XTdYAABh
+Detected 2 dead connections: [
+  {
+    lastSeen: 1751032036543,
+    namespace: '/monitor',
+    socketId: 'Ak00IWDoAcsLYkLfAABd'
+  },
+  {
+    lastSeen: 1751032038268,
+    namespace: '/monitor',
+    socketId: 'olFl5E40Y64ebCLzAABf'
+  }
+]
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751032088405,
+    namespace: '/monitor',
+    socketId: 'iOvpm7dDSPa8XTdYAABh'
+  }
+]
+Client disconnected from /monitor: iOvpm7dDSPa8XTdYAABh (transport close)
+[ConnectionManager] Removed iOvpm7dDSPa8XTdYAABh from /monitor. Total: 0
+[ConnectionManager] Added LbhiEsYtYKe-K9M1AABj to /monitor. Total: 1
+Client connected to /monitor: LbhiEsYtYKe-K9M1AABj
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751032403801,
+    namespace: '/monitor',
+    socketId: 'LbhiEsYtYKe-K9M1AABj'
+  }
+]
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751033937592,
+    namespace: '/terminal',
+    socketId: 'JL9R8tPDvda7yF6hAABW'
+  }
+]
+Client disconnected from /kiosk: XcQZVk0h2qUJNUfUAABX (ping timeout)
+[ConnectionManager] Removed XcQZVk0h2qUJNUfUAABX from /kiosk. Total: 0
+Client disconnected from /monitor: LbhiEsYtYKe-K9M1AABj (ping timeout)
+[ConnectionManager] Removed LbhiEsYtYKe-K9M1AABj from /monitor. Total: 0
+Client disconnected from /terminal: JL9R8tPDvda7yF6hAABW (ping timeout)
+[ConnectionManager] Removed JL9R8tPDvda7yF6hAABW from /terminal. Total: 0
+[ConnectionManager] Added lKmWPlpLB0rUsyjeAABy to /monitor. Total: 1
+Client connected to /monitor: lKmWPlpLB0rUsyjeAABy
+Client disconnected from /monitor: lKmWPlpLB0rUsyjeAABy (transport close)
+[ConnectionManager] Removed lKmWPlpLB0rUsyjeAABy from /monitor. Total: 0
+[ConnectionManager] Added Y_pom4U8PM7jjd-IAAB1 to /kiosk. Total: 1
+Client connected to /kiosk: Y_pom4U8PM7jjd-IAAB1
+[ConnectionManager] Socket Y_pom4U8PM7jjd-IAAB1 joined room: all-updates
+Socket Y_pom4U8PM7jjd-IAAB1 joined room: all-updates
+Client disconnected from /kiosk: Y_pom4U8PM7jjd-IAAB1 (transport close)
+[ConnectionManager] Removed Y_pom4U8PM7jjd-IAAB1 from /kiosk. Total: 0
+[ConnectionManager] Added -GqqkCMrUhxx8IdUAAB3 to /terminal. Total: 1
+Client connected to /terminal: -GqqkCMrUhxx8IdUAAB3
+[ConnectionManager] Socket -GqqkCMrUhxx8IdUAAB3 joined room: service-1
+Socket -GqqkCMrUhxx8IdUAAB3 joined room: service-1
+[ConnectionManager] Socket -GqqkCMrUhxx8IdUAAB3 joined room: counter-1
+Socket -GqqkCMrUhxx8IdUAAB3 joined room: counter-1
+Client disconnected from /terminal: -GqqkCMrUhxx8IdUAAB3 (transport close)
+[ConnectionManager] Removed -GqqkCMrUhxx8IdUAAB3 from /terminal. Total: 0

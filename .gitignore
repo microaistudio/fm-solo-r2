@@ -4,3 +4,4 @@
 "package-lock.json" 
 "server.log" 
 "*.log" 
+"node_modules/" 

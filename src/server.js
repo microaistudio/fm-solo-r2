@@ -21,6 +21,9 @@ async function startServer() {
             }
         });
         
+        // Make io available to routes (BUG FIX)
+        app.set('io', io);
+        
         // Setup namespaces and connection tracking
         setupSocketIO(io);
         
@@ -46,9 +49,13 @@ process.on('SIGTERM', async () => {
     console.log('SIGTERM signal received: closing HTTP server');
     if (server) {
         server.close(async () => {
-            stopHeartbeat();
-            await closeDatabase();
-            console.log('HTTP server closed');
+            try {
+                stopHeartbeat();
+                await closeDatabase();
+                console.log('HTTP server closed');
+            } catch (error) {
+                console.error('❌ Error during shutdown:', error.message);
+            }
         });
     }
 });
@@ -57,9 +64,13 @@ process.on('SIGINT', async () => {
     console.log('SIGINT signal received: closing HTTP server');
     if (server) {
         server.close(async () => {
-            stopHeartbeat();
-            await closeDatabase();
-            console.log('HTTP server closed');
+            try {
+                stopHeartbeat();
+                await closeDatabase();
+                console.log('HTTP server closed');
+            } catch (error) {
+                console.error('❌ Error during shutdown:', error.message);
+            }
         });
     }
 });

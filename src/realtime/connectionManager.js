@@ -2,28 +2,29 @@
 // Connection tracking for Socket.IO namespaces - Raspberry Pi optimized
 
 class ConnectionManager {
-    constructor() {
-      // Track connections by namespace and socket ID
-      this.connections = {
-        '/kiosk': new Map(),
-        '/terminal': new Map(),
-        '/monitor': new Map(),
-        '/customer': new Map()
-      };
-      
-      // Track rooms joined by each socket
-      this.socketRooms = new Map();
-    }
-  
-    // Add a new connection
-    addConnection(namespace, socket) {
+  constructor() {
+    // Track connections by namespace and socket ID
+    this.connections = {
+      '/kiosk': new Map(),
+      '/terminal': new Map(),
+      '/monitor': new Map(),
+      '/customer': new Map()
+    };
+    
+    // Track rooms joined by each socket
+    this.socketRooms = new Map();
+  }
+
+  // Add a new connection
+  addConnection(namespace, socket) {
+    try {
       const ns = namespace.startsWith('/') ? namespace : `/${namespace}`;
       
       if (!this.connections[ns]) {
         console.error(`Unknown namespace: ${ns}`);
         return false;
       }
-  
+
       // Store connection info
       this.connections[ns].set(socket.id, {
         id: socket.id,
@@ -31,36 +32,46 @@ class ConnectionManager {
         lastActivity: new Date(),
         rooms: new Set()
       });
-  
+
       // Initialize room tracking for this socket
       this.socketRooms.set(socket.id, new Set());
-  
+
       console.log(`[ConnectionManager] Added ${socket.id} to ${ns}. Total: ${this.connections[ns].size}`);
       return true;
+    } catch (error) {
+      console.error('❌ Error adding connection:', error.message);
+      return false;
     }
-  
-    // Remove a connection
-    removeConnection(namespace, socketId) {
+  }
+
+  // Remove a connection
+  removeConnection(namespace, socketId) {
+    try {
       const ns = namespace.startsWith('/') ? namespace : `/${namespace}`;
       
       if (!this.connections[ns]) {
         return false;
       }
-  
+
       const deleted = this.connections[ns].delete(socketId);
       
       // Clean up room tracking
       this.socketRooms.delete(socketId);
-  
+
       if (deleted) {
         console.log(`[ConnectionManager] Removed ${socketId} from ${ns}. Total: ${this.connections[ns].size}`);
       }
-  
+
       return deleted;
+    } catch (error) {
+      console.error('❌ Error removing connection:', error.message);
+      return false;
     }
-  
-    // Update last activity timestamp
-    updateActivity(socketId) {
+  }
+
+  // Update last activity timestamp
+  updateActivity(socketId) {
+    try {
       // Check all namespaces for this socket
       for (const [ns, connections] of Object.entries(this.connections)) {
         const conn = connections.get(socketId);
@@ -70,10 +81,15 @@ class ConnectionManager {
         }
       }
       return false;
+    } catch (error) {
+      console.error('❌ Error updating activity:', error.message);
+      return false;
     }
-  
-    // Add socket to a room
-    joinRoom(socketId, room) {
+  }
+
+  // Add socket to a room
+  joinRoom(socketId, room) {
+    try {
       const rooms = this.socketRooms.get(socketId);
       if (rooms) {
         rooms.add(room);
@@ -91,10 +107,15 @@ class ConnectionManager {
         return true;
       }
       return false;
+    } catch (error) {
+      console.error('❌ Error joining room:', error.message);
+      return false;
     }
-  
-    // Remove socket from a room
-    leaveRoom(socketId, room) {
+  }
+
+  // Remove socket from a room
+  leaveRoom(socketId, room) {
+    try {
       const rooms = this.socketRooms.get(socketId);
       if (rooms) {
         rooms.delete(room);
@@ -112,25 +133,40 @@ class ConnectionManager {
         return true;
       }
       return false;
+    } catch (error) {
+      console.error('❌ Error leaving room:', error.message);
+      return false;
     }
-  
-    // Get connection count for a namespace
-    getConnectionCount(namespace) {
+  }
+
+  // Get connection count for a namespace
+  getConnectionCount(namespace) {
+    try {
       const ns = namespace.startsWith('/') ? namespace : `/${namespace}`;
       return this.connections[ns]?.size || 0;
+    } catch (error) {
+      console.error('❌ Error getting connection count:', error.message);
+      return 0;
     }
-  
-    // Get all connection counts
-    getAllCounts() {
+  }
+
+  // Get all connection counts
+  getAllCounts() {
+    try {
       const counts = {};
       for (const [ns, connections] of Object.entries(this.connections)) {
         counts[ns] = connections.size;
       }
       return counts;
+    } catch (error) {
+      console.error('❌ Error getting all counts:', error.message);
+      return {};
     }
-  
-    // Get connections in a specific room
-    getConnectionsInRoom(room) {
+  }
+
+  // Get connections in a specific room
+  getConnectionsInRoom(room) {
+    try {
       const connectionsInRoom = [];
       
       for (const [socketId, rooms] of this.socketRooms.entries()) {
@@ -152,10 +188,15 @@ class ConnectionManager {
       }
       
       return connectionsInRoom;
+    } catch (error) {
+      console.error('❌ Error getting connections in room:', error.message);
+      return [];
     }
-  
-    // Get stale connections (no activity for specified minutes)
-    getStaleConnections(inactiveMinutes = 5) {
+  }
+
+  // Get stale connections (no activity for specified minutes)
+  getStaleConnections(inactiveMinutes = 5) {
+    try {
       const staleConnections = [];
       const cutoffTime = new Date(Date.now() - inactiveMinutes * 60 * 1000);
       
@@ -173,10 +214,15 @@ class ConnectionManager {
       }
       
       return staleConnections;
+    } catch (error) {
+      console.error('❌ Error getting stale connections:', error.message);
+      return [];
     }
-  
-    // Get detailed connection info
-    getConnectionInfo(socketId) {
+  }
+
+  // Get detailed connection info
+  getConnectionInfo(socketId) {
+    try {
       for (const [ns, connections] of Object.entries(this.connections)) {
         const conn = connections.get(socketId);
         if (conn) {
@@ -191,17 +237,22 @@ class ConnectionManager {
         }
       }
       return null;
+    } catch (error) {
+      console.error('❌ Error getting connection info:', error.message);
+      return null;
     }
-  
-    // Get summary statistics
-    getStats() {
+  }
+
+  // Get summary statistics
+  getStats() {
+    try {
       const stats = {
         total: 0,
         byNamespace: {},
         byRoom: {},
         averageConnectionTime: 0
       };
-  
+
       let totalConnectionTime = 0;
       
       // Count by namespace and calculate average connection time
@@ -213,31 +264,39 @@ class ConnectionManager {
           totalConnectionTime += (Date.now() - conn.connectedAt);
         }
       }
-  
+
       // Count by room
       for (const rooms of this.socketRooms.values()) {
         for (const room of rooms) {
           stats.byRoom[room] = (stats.byRoom[room] || 0) + 1;
         }
       }
-  
+
       // Calculate average connection time
       if (stats.total > 0) {
         stats.averageConnectionTime = Math.floor(totalConnectionTime / stats.total / 60000); // in minutes
       }
-  
+
       return stats;
+    } catch (error) {
+      console.error('❌ Error getting stats:', error.message);
+      return { total: 0, byNamespace: {}, byRoom: {}, averageConnectionTime: 0 };
     }
-  
-    // Clear all connections (for testing or reset)
-    clearAll() {
+  }
+
+  // Clear all connections (for testing or reset)
+  clearAll() {
+    try {
       for (const connections of Object.values(this.connections)) {
         connections.clear();
       }
       this.socketRooms.clear();
       console.log('[ConnectionManager] All connections cleared');
+    } catch (error) {
+      console.error('❌ Error clearing connections:', error.message);
     }
   }
-  
-  // Export singleton instance
-  module.exports = new ConnectionManager();
+}
+
+// Export singleton instance
+module.exports = new ConnectionManager();

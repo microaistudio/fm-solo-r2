@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Kiosk | FlowMatic-SOLO R2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #4a5568;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .time-display {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-toggle {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #4299e1;
+            color: white;
+        }
+
+        .home-btn {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .home-btn:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+        }
+
+        .main-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: #718096;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: #4299e1;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card:active {
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .service-description {
+            font-size: 1rem;
+            color: #718096;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .service-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4299e1;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .customer-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #2d3748;
+        }
+
+        .form-subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: #4299e1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .ticket-display {
+            border: 3px dashed #4299e1;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            background: #f7fafc;
+        }
+
+        .ticket-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4299e1;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .ticket-info-item {
+            text-align: center;
+        }
+
+        .ticket-info-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .ticket-info-label {
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-left: 4px solid #4299e1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 100;
+        }
+
+        .status-connected {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .status-disconnected {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="status-indicator" class="status-indicator status-disconnected">⚠️ Connecting...</div>
+
+    <header class="header">
+        <div class="logo">FlowMatic-SOLO R2</div>
+        <div class="time-display" id="current-time"></div>
+        <div class="header-right">
+            <div class="language-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="th">TH</button>
+                <button class="lang-btn" data-lang="hi">HI</button>
+            </div>
+            <a href="/" class="home-btn">🏠 <span data-text="home">Home</span></a>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="welcome-section">
+            <h1 class="welcome-title" data-text="welcome_title">Welcome to FlowMatic-SOLO R2</h1>
+            <p class="welcome-subtitle" data-text="welcome_subtitle">Please select a service to get your queue ticket</p>
+        </section>
+
+        <section id="services-section">
+            <div class="services-grid" id="services-grid">
+                <!-- Services will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <section id="customer-form" class="customer-form">
+            <h2 class="form-title" data-text="customer_details">Customer Details</h2>
+            <p class="form-subtitle" data-text="optional_info">Optional information for better service</p>
+            
+            <form id="ticket-form">
+                <div class="form-group">
+                    <label class="form-label" data-text="customer_name">Customer Name</label>
+                    <input type="text" class="form-input" id="customer-name" placeholder="Enter your name (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" data-text="phone_number">Phone Number</label>
+                    <input type="tel" class="form-input" id="customer-phone" placeholder="Enter your phone number (optional)">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" data-text="email_address">Email Address</label>
+                    <input type="email" class="form-input" id="customer-email" placeholder="Enter your email (optional)">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="back-btn" data-text="back_to_services">Back to Services</button>
+                    <button type="submit" class="btn btn-primary" id="generate-btn" data-text="generate_ticket">Generate Ticket</button>
+                </div>
+            </form>
+        </section>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p data-text="generating_ticket">Generating your ticket...</p>
+        </div>
+    </main>
+
+    <div id="ticket-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 data-text="ticket_generated">Your Ticket is Ready!</h2>
+            
+            <div class="ticket-display">
+                <div class="ticket-number" id="ticket-number">A001</div>
+                <div class="ticket-info">
+                    <div class="ticket-info-item">
+                        <div class="ticket-info-value" id="queue-position">3</div>
+                        <div class="ticket-info-label" data-text="queue_position">Queue Position</div>
+                    </div>
+                    <div class="ticket-info-item">
+                        <div class="ticket-info-value" id="estimated-wait">15 min</div>
+                        <div class="ticket-info-label" data-text="estimated_wait">Estimated Wait</div>
+                    </div>
+                    <div class="ticket-info-item">
+                        <div class="ticket-info-value" id="ticket-time">14:30</div>
+                        <div class="ticket-info-label" data-text="issued_time">Issued Time</div>
+                    </div>
+                </div>
+                <div id="service-info">
+                    <strong id="selected-service-name">General Service</strong>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="print-btn" data-text="print_ticket">🖨️ Print Ticket</button>
+                <button class="btn btn-primary" id="done-btn" data-text="done">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                home: 'Home',
+                welcome_title: 'Welcome to FlowMatic-SOLO R2',
+                welcome_subtitle: 'Please select a service to get your queue ticket',
+                customer_details: 'Customer Details',
+                optional_info: 'Optional information for better service',
+                customer_name: 'Customer Name',
+                phone_number: 'Phone Number',
+                email_address: 'Email Address',
+                back_to_services: 'Back to Services',
+                generate_ticket: 'Generate Ticket',
+                generating_ticket: 'Generating your ticket...',
+                ticket_generated: 'Your Ticket is Ready!',
+                queue_position: 'Queue Position',
+                estimated_wait: 'Estimated Wait',
+                issued_time: 'Issued Time',
+                print_ticket: '🖨️ Print Ticket',
+                done: 'Done',
+                waiting: 'waiting',
+                minutes: 'min'
+            },
+            th: {
+                home: 'หน้าหลัก',
+                welcome_title: 'ยินดีต้อนรับสู่ FlowMatic-SOLO R2',
+                welcome_subtitle: 'กรุณาเลือกบริการเพื่อรับบัตรคิว',
+                customer_details: 'ข้อมูลลูกค้า',
+                optional_info: 'ข้อมูลเสริมเพื่อการบริการที่ดียิ่งขึ้น',
+                customer_name: 'ชื่อลูกค้า',
+                phone_number: 'หมายเลขโทรศัพท์',
+                email_address: 'อีเมล',
+                back_to_services: 'กลับไปเลือกบริการ',
+                generate_ticket: 'สร้างบัตรคิว',
+                generating_ticket: 'กำลังสร้างบัตรคิวของคุณ...',
+                ticket_generated: 'บัตรคิวของคุณพร้อมแล้ว!',
+                queue_position: 'ลำดับในคิว',
+                estimated_wait: 'เวลารอโดยประมาณ',
+                issued_time: 'เวลาที่ออก',
+                print_ticket: '🖨️ พิมพ์บัตร',
+                done: 'เสร็จสิ้น',
+                waiting: 'กำลังรอ',
+                minutes: 'นาที'
+            },
+            hi: {
+                home: 'होम',
+                welcome_title: 'FlowMatic-SOLO R2 में आपका स्वागत है',
+                welcome_subtitle: 'कृपया अपना क्यू टिकट प्राप्त करने के लिए एक सेवा का चयन करें',
+                customer_details: 'ग्राहक विवरण',
+                optional_info: 'बेहतर सेवा के लिए वैकल्पिक जानकारी',
+                customer_name: 'ग्राहक का नाम',
+                phone_number: 'फोन नंबर',
+                email_address: 'ईमेल पता',
+                back_to_services: 'सेवाओं पर वापस जाएं',
+                generate_ticket: 'टिकट जेनरेट करें',
+                generating_ticket: 'आपका टिकट तैयार किया जा रहा है...',
+                ticket_generated: 'आपका टिकट तैयार है!',
+                queue_position: 'क्यू की स्थिति',
+                estimated_wait: 'अनुमानित प्रतीक्षा',
+                issued_time: 'जारी करने का समय',
+                print_ticket: '🖨️ टिकट प्रिंट करें',
+                done: 'हो गया',
+                waiting: 'प्रतीक्षा में',
+                minutes: 'मिनट'
+            }
+        };
+
+        // Services configuration
+        const services = [
+            { id: 1, name: 'General Service', prefix: 'A', description: 'General inquiries and services', icon: '🏢' },
+            { id: 2, name: 'Account Services', prefix: 'B', description: 'Account opening, modifications', icon: '💳' },
+            { id: 3, name: 'VIP Services', prefix: 'V', description: 'Premium customer services', icon: '⭐' },
+            { id: 4, name: 'Technical Support', prefix: 'T', description: 'Technical assistance and support', icon: '🔧' }
+        ];
+
+        // Global variables
+        let socket;
+        let currentLanguage = localStorage.getItem('language') || 'en';
+        let selectedService = null;
+        let queueData = {};
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSocket();
+            initializeInterface();
+            updateTime();
+            setInterval(updateTime, 1000);
+        });
+
+        // Socket.IO initialization
+        function initializeSocket() {
+            socket = io('/kiosk');
+            
+            socket.on('connect', () => {
+                console.log('✅ Connected to kiosk namespace:', socket.id);
+                updateConnectionStatus(true);
+                socket.emit('join-all', {});
+            });
+            
+            socket.on('disconnect', () => {
+                console.log('❌ Disconnected from kiosk namespace');
+                updateConnectionStatus(false);
+            });
+            
+            socket.on('joined', (data) => {
+                console.log('✅ Joined room:', data.room);
+            });
+            
+            socket.on('queue-updated', (data) => {
+                console.log('📊 Queue updated:', data);
+                updateQueueData(data);
+            });
+            
+            socket.on('ticket-created', (data) => {
+                console.log('🎫 Ticket created via Socket.IO:', data);
+                // Don't auto-show modal from socket event to avoid double display
+                // showTicketModal(data);
+            });
+        }
+
+        // Initialize interface
+        function initializeInterface() {
+            setLanguage(currentLanguage);
+            renderServices();
+            setupEventListeners();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Language toggle
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.dataset.lang;
+                    setLanguage(lang);
+                });
+            });
+
+            // Form submission
+            document.getElementById('ticket-form').addEventListener('submit', handleTicketGeneration);
+            
+            // Back button
+            document.getElementById('back-btn').addEventListener('click', showServicesSection);
+            
+            // Modal buttons
+            document.getElementById('print-btn').addEventListener('click', printTicket);
+            document.getElementById('done-btn').addEventListener('click', closeModal);
+        }
+
+        // Language management
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // Update all text elements
+            document.querySelectorAll('[data-text]').forEach(el => {
+                const key = el.dataset.text;
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholders
+            const nameInput = document.getElementById('customer-name');
+            const phoneInput = document.getElementById('customer-phone');
+            const emailInput = document.getElementById('customer-email');
+            
+            if (lang === 'th') {
+                nameInput.placeholder = 'กรอกชื่อของคุณ (ไม่บังคับ)';
+                phoneInput.placeholder = 'กรอกหมายเลขโทรศัพท์ (ไม่บังคับ)';
+                emailInput.placeholder = 'กรอกอีเมลของคุณ (ไม่บังคับ)';
+            } else if (lang === 'hi') {
+                nameInput.placeholder = 'अपना नाम दर्ज करें (वैकल्पिक)';
+                phoneInput.placeholder = 'अपना फोन नंबर दर्ज करें (वैकल्पिक)';
+                emailInput.placeholder = 'अपना ईमेल दर्ज करें (वैकल्पिक)';
+            } else {
+                nameInput.placeholder = 'Enter your name (optional)';
+                phoneInput.placeholder = 'Enter your phone number (optional)';
+                emailInput.placeholder = 'Enter your email (optional)';
+            }
+        }
+
+        // Render services grid
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+            
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.onclick = () => selectService(service);
+                
+                const queueCount = queueData[service.id]?.waiting || 0;
+                const estimatedWait = Math.max(5, queueCount * 3);
+                
+                card.innerHTML = `
+                    <div class="service-icon">${service.icon}</div>
+                    <div class="service-name">${service.name}</div>
+                    <div class="service-description">${service.description}</div>
+                    <div class="service-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${queueCount}</div>
+                            <div class="stat-label">${translations[currentLanguage].waiting}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">~${estimatedWait}</div>
+                            <div class="stat-label">${translations[currentLanguage].minutes}</div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Service selection
+        function selectService(service) {
+            selectedService = service;
+            
+            // Add visual feedback for selected service
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.style.borderColor = 'transparent';
+            });
+            event.currentTarget.style.borderColor = '#4299e1';
+            event.currentTarget.style.borderWidth = '3px';
+            
+            console.log('Service selected:', service);
+            showCustomerForm();
+        }
+
+        // Show customer form
+        function showCustomerForm() {
+            document.getElementById('services-section').style.display = 'none';
+            document.getElementById('customer-form').style.display = 'block';
+            document.getElementById('customer-name').focus();
+        }
+
+        // Show services section
+        function showServicesSection() {
+            document.getElementById('services-section').style.display = 'block';
+            document.getElementById('customer-form').style.display = 'none';
+            selectedService = null;
+        }
+
+        // Handle ticket generation
+        async function handleTicketGeneration(e) {
+            e.preventDefault();
+            
+            if (!selectedService) {
+                console.error('No service selected');
+                return;
+            }
+            
+            const formData = {
+                serviceId: selectedService.id,
+                customerName: document.getElementById('customer-name').value || null,
+                customerPhone: document.getElementById('customer-phone').value || null,
+                customerEmail: document.getElementById('customer-email').value || null
+            };
+            
+            // ADD DEBUG LOGGING
+            console.log('Generating ticket for service:', selectedService);
+            console.log('Form data being sent:', formData);
+            
+            showLoading(true);
+            
+            try {
+                const response = await fetch('/api/kiosk/tickets', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('API Response status:', response.status);
+                
+                if (response.ok) {
+                    const ticket = await response.json();
+                    console.log('Received ticket response:', ticket);
+                    showTicketModal(ticket);
+                } else {
+                    const error = await response.json();
+                    console.error('API Error Response:', error);
+                    console.error('Response Status:', response.status);
+                    alert(`Error creating ticket: ${error.error}\nStatus: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Network Error:', error);
+                alert('Network error. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Show loading state
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.getElementById('generate-btn').disabled = show;
+        }
+
+        // Show ticket modal
+        function showTicketModal(ticketData) {
+            const modal = document.getElementById('ticket-modal');
+            
+            console.log('Displaying ticket modal with data:', ticketData);
+            
+            // Use correct property names from API response
+            document.getElementById('ticket-number').textContent = ticketData.ticketNumber || 'A001';
+            
+            // Calculate queue position from current queue data
+            const currentQueue = queueData[ticketData.serviceId];
+            const queuePosition = currentQueue?.waiting || '1';
+            document.getElementById('queue-position').textContent = queuePosition;
+            
+            // Use correct property name for estimated wait
+            document.getElementById('estimated-wait').textContent = `${ticketData.estimatedWaitMinutes || 5} min`;
+            
+            // Format time properly
+            document.getElementById('ticket-time').textContent = new Date().toLocaleTimeString('en-US', { 
+                hour12: false, 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            // Use service name from ticket data or selected service
+            document.getElementById('selected-service-name').textContent = ticketData.serviceName || selectedService?.name || 'Service';
+            
+            modal.classList.add('show');
+            
+            // Reset form
+            document.getElementById('ticket-form').reset();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('ticket-modal').classList.remove('show');
+            showServicesSection();
+        }
+
+        // Print ticket
+        function printTicket() {
+            window.print();
+        }
+
+        // Update queue data
+        function updateQueueData(data) {
+            if (data.serviceId) {
+                queueData[data.serviceId] = data.queue;
+                renderServices();
+            }
+        }
+
+        // Update connection status
+        function updateConnectionStatus(connected) {
+            const indicator = document.getElementById('status-indicator');
+            if (connected) {
+                indicator.className = 'status-indicator status-connected';
+                indicator.textContent = '✅ Connected';
+                console.log('✅ Socket.IO connected successfully');
+            } else {
+                indicator.className = 'status-indicator status-disconnected';
+                indicator.textContent = '⚠️ Disconnected';
+                console.log('⚠️ Socket.IO disconnected');
+            }
+        }
+
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+    </script>
+</body>
+</html>

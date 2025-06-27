@@ -1,10 +1,14 @@
 const express = require('express');
+const path = require('path');
 const routes = require('./routes');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -18,11 +22,13 @@ app.use((req, res, next) => {
 
 app.use('/api', routes);
 
-app.get('/', (req, res) => {
+// API status endpoint
+app.get('/api/status', (req, res) => {
     res.json({ 
-        name: 'FlowMatic-SOLO', 
-        version: '2.0.0',
-        state: 'running'
+        name: 'FlowMatic-SOLO R2', 
+        version: '2.4.0',
+        state: 'running',
+        timestamp: new Date().toISOString()
     });
 });
 

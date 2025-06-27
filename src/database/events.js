@@ -1,4 +1,4 @@
-const db = require('./connection');
+const { getDb } = require('./connection');
 
 const EventTypes = {
   TICKET_CREATED: 'TICKET_CREATED',
@@ -6,6 +6,7 @@ const EventTypes = {
   TICKET_COMPLETED: 'TICKET_COMPLETED',
   TICKET_RECALLED: 'TICKET_RECALLED',
   TICKET_NO_SHOW: 'TICKET_NO_SHOW',
+  TICKET_TRANSFERRED: 'TICKET_TRANSFERRED',
   QUEUE_UPDATED: 'QUEUE_UPDATED',
   COUNTER_STATE_CHANGED: 'COUNTER_STATE_CHANGED',
   AGENT_LOGIN: 'AGENT_LOGIN',
@@ -21,6 +22,7 @@ function logEvent(eventType, entityType, entityId, data = {}, agentId = null, co
     
     const params = [eventType, entityType, entityId, JSON.stringify(data), agentId, counterId];
     
+    const db = getDb();
     db.run(sql, params, function(err) {
       if (err) {
         console.error('Event logging error:', err);
