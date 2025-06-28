@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const routes = require('./routes');
 
 const app = express();
 
@@ -20,7 +19,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api', routes);
+app.use('/api/health', require('./routes/health'));
+app.use('/api/kiosk', require('./routes/kiosk'));
+app.use('/api/terminal', require('./routes/terminal'));
+app.use('/api/monitor', require('./routes/monitor'));
+app.use('/api/admin', require('./routes/admin'));
 
 // API status endpoint
 app.get('/api/status', (req, res) => {
