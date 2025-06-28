@@ -1,0 +1,62 @@
+
+> flowmatic-solo-r2@2.0.0 start
+> node src/server.js
+
+Connected to SQLite database at /mnt/e/GIT-Repos/FlowMaticDev/FlowMatic-Solo-R2/FM-SOLO-R2/data/flowmatic.db
+Socket.IO namespaces initialized with connection tracking
+FlowMatic-SOLO server running on port 5050
+Socket.IO server ready with connection tracking
+Starting heartbeat system...
+Heartbeat system started (interval: 30000ms)
+[ConnectionManager] Added sKcX7XZp-XqGnHx9AAAB to /kiosk. Total: 1
+Client connected to /kiosk: sKcX7XZp-XqGnHx9AAAB
+[ConnectionManager] Socket sKcX7XZp-XqGnHx9AAAB joined room: all-updates
+Socket sKcX7XZp-XqGnHx9AAAB joined room: all-updates
+Client disconnected from /kiosk: sKcX7XZp-XqGnHx9AAAB (transport close)
+[ConnectionManager] Removed sKcX7XZp-XqGnHx9AAAB from /kiosk. Total: 0
+[ConnectionManager] Added yMzFki72_rujLld3AAAD to /terminal. Total: 1
+Client connected to /terminal: yMzFki72_rujLld3AAAD
+[ConnectionManager] Socket yMzFki72_rujLld3AAAD joined room: counter-1
+Socket yMzFki72_rujLld3AAAD joined room: counter-1
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751058358136,
+    namespace: '/kiosk',
+    socketId: 'sKcX7XZp-XqGnHx9AAAB'
+  }
+]
+Client disconnected from /terminal: yMzFki72_rujLld3AAAD (transport close)
+[ConnectionManager] Removed yMzFki72_rujLld3AAAD from /terminal. Total: 0
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751058470421,
+    namespace: '/terminal',
+    socketId: 'yMzFki72_rujLld3AAAD'
+  }
+]
+[ConnectionManager] Added aK1BxWaGAjENwHU4AAAH to /kiosk. Total: 1
+Client connected to /kiosk: aK1BxWaGAjENwHU4AAAH
+[ConnectionManager] Socket aK1BxWaGAjENwHU4AAAH joined room: all-updates
+Socket aK1BxWaGAjENwHU4AAAH joined room: all-updates
+Client disconnected from /kiosk: aK1BxWaGAjENwHU4AAAH (transport close)
+[ConnectionManager] Removed aK1BxWaGAjENwHU4AAAH from /kiosk. Total: 0
+[ConnectionManager] Added hNKUELikyvmNy-0BAAAJ to /terminal. Total: 1
+Client connected to /terminal: hNKUELikyvmNy-0BAAAJ
+[ConnectionManager] Socket hNKUELikyvmNy-0BAAAJ joined room: counter-1
+Socket hNKUELikyvmNy-0BAAAJ joined room: counter-1
+Client disconnected from /terminal: hNKUELikyvmNy-0BAAAJ (transport close)
+[ConnectionManager] Removed hNKUELikyvmNy-0BAAAJ from /terminal. Total: 0
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751058623036,
+    namespace: '/kiosk',
+    socketId: 'aK1BxWaGAjENwHU4AAAH'
+  }
+]
+Detected 1 dead connections: [
+  {
+    lastSeen: 1751058680474,
+    namespace: '/terminal',
+    socketId: 'hNKUELikyvmNy-0BAAAJ'
+  }
+]
