@@ -1,82 +1,32 @@
+
+> flowmatic-solo-r2@2.0.0 start
+> node src/server.js
+
 Connected to SQLite database at /mnt/e/GIT-Repos/FlowMaticDev/FlowMatic-Solo-R2/FM-SOLO-R2/data/flowmatic.db
 Socket.IO namespaces initialized with connection tracking
 FlowMatic-SOLO server running on port 5050
 Socket.IO server ready with connection tracking
 Starting heartbeat system...
 Heartbeat system started (interval: 30000ms)
-[ConnectionManager] Added naTIY0LYZYKpTiuHAAAB to /kiosk. Total: 1
-Client connected to /kiosk: naTIY0LYZYKpTiuHAAAB
-[ConnectionManager] Socket naTIY0LYZYKpTiuHAAAB joined room: all-updates
-Socket naTIY0LYZYKpTiuHAAAB joined room: all-updates
-Client disconnected from /kiosk: naTIY0LYZYKpTiuHAAAB (transport close)
-[ConnectionManager] Removed naTIY0LYZYKpTiuHAAAB from /kiosk. Total: 0
-[ConnectionManager] Added VtKN2kxdXXVPUlhgAAAD to /monitor. Total: 1
-Client connected to /monitor: VtKN2kxdXXVPUlhgAAAD
-[ConnectionManager] Socket VtKN2kxdXXVPUlhgAAAD joined room: all-updates
-Socket VtKN2kxdXXVPUlhgAAAD joined room: all-updates
-Client disconnected from /monitor: VtKN2kxdXXVPUlhgAAAD (transport close)
-[ConnectionManager] Removed VtKN2kxdXXVPUlhgAAAD from /monitor. Total: 0
-Detected 2 dead connections: [
-  {
-    lastSeen: 1751130557323,
-    namespace: '/kiosk',
-    socketId: 'naTIY0LYZYKpTiuHAAAB'
-  },
-  {
-    lastSeen: 1751130564382,
-    namespace: '/monitor',
-    socketId: 'VtKN2kxdXXVPUlhgAAAD'
-  }
-]
-[ConnectionManager] Added p1_CRX6CLthbjc7TAAAF to /kiosk. Total: 1
-Client connected to /kiosk: p1_CRX6CLthbjc7TAAAF
-[ConnectionManager] Socket p1_CRX6CLthbjc7TAAAF joined room: all-updates
-Socket p1_CRX6CLthbjc7TAAAF joined room: all-updates
-[ConnectionManager] Added _ntKYRWLGC3neQqbAAAH to /kiosk. Total: 2
-Client connected to /kiosk: _ntKYRWLGC3neQqbAAAH
-[ConnectionManager] Socket _ntKYRWLGC3neQqbAAAH joined room: all-updates
-Socket _ntKYRWLGC3neQqbAAAH joined room: all-updates
+[ConnectionManager] Added nX6FEBbb0bSrC5eUAAAB to /kiosk. Total: 1
+Client connected to /kiosk: nX6FEBbb0bSrC5eUAAAB
+[ConnectionManager] Socket nX6FEBbb0bSrC5eUAAAB joined room: all-updates
+Socket nX6FEBbb0bSrC5eUAAAB joined room: all-updates
+[ConnectionManager] Added F3FwySmIHMJ3JdXbAAAD to /kiosk. Total: 2
+Client connected to /kiosk: F3FwySmIHMJ3JdXbAAAD
+[ConnectionManager] Socket F3FwySmIHMJ3JdXbAAAD joined room: all-updates
+Socket F3FwySmIHMJ3JdXbAAAD joined room: all-updates
 Detected 1 dead connections: [
   {
-    lastSeen: 1751132403439,
+    lastSeen: 1751212922257,
     namespace: '/kiosk',
-    socketId: 'p1_CRX6CLthbjc7TAAAF'
+    socketId: 'nX6FEBbb0bSrC5eUAAAB'
   }
 ]
 Detected 1 dead connections: [
   {
-    lastSeen: 1751132456081,
+    lastSeen: 1751212946213,
     namespace: '/kiosk',
-    socketId: '_ntKYRWLGC3neQqbAAAH'
+    socketId: 'F3FwySmIHMJ3JdXbAAAD'
   }
 ]
-Client disconnected from /kiosk: _ntKYRWLGC3neQqbAAAH (transport close)
-[ConnectionManager] Removed _ntKYRWLGC3neQqbAAAH from /kiosk. Total: 1
-Client disconnected from /kiosk: p1_CRX6CLthbjc7TAAAF (ping timeout)
-[ConnectionManager] Removed p1_CRX6CLthbjc7TAAAF from /kiosk. Total: 0
-[ConnectionManager] Added UkU213-_aGZXCEAzAAAJ to /kiosk. Total: 1
-Client connected to /kiosk: UkU213-_aGZXCEAzAAAJ
-[ConnectionManager] Socket UkU213-_aGZXCEAzAAAJ joined room: all-updates
-Socket UkU213-_aGZXCEAzAAAJ joined room: all-updates
-Detected 1 dead connections: [
-  {
-    lastSeen: 1751133259222,
-    namespace: '/kiosk',
-    socketId: 'UkU213-_aGZXCEAzAAAJ'
-  }
-]
-[ConnectionManager] Added BQQ0dX-1djcP4tDKAAAL to /kiosk. Total: 2
-Client connected to /kiosk: BQQ0dX-1djcP4tDKAAAL
-[ConnectionManager] Socket BQQ0dX-1djcP4tDKAAAL joined room: all-updates
-Socket BQQ0dX-1djcP4tDKAAAL joined room: all-updates
-Detected 1 dead connections: [
-  {
-    lastSeen: 1751133454993,
-    namespace: '/kiosk',
-    socketId: 'BQQ0dX-1djcP4tDKAAAL'
-  }
-]
-Client disconnected from /kiosk: UkU213-_aGZXCEAzAAAJ (transport close)
-[ConnectionManager] Removed UkU213-_aGZXCEAzAAAJ from /kiosk. Total: 1
-Client disconnected from /kiosk: BQQ0dX-1djcP4tDKAAAL (transport close)
-[ConnectionManager] Removed BQQ0dX-1djcP4tDKAAAL from /kiosk. Total: 0
